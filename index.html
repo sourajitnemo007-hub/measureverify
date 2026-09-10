@@ -604,6 +604,80 @@
             border-bottom: 1px solid var(--border);
         }
 
+        /* ================= CERTIFICATE REPORT FLOW ================= */
+
+        .certificate-detail-card {
+            margin-top: 20px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .certificate-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 18px;
+            margin-top: 15px;
+        }
+
+        .certificate-detail-grid div {
+            padding: 10px;
+            background: #f7f9fc;
+            border-radius: 8px;
+        }
+
+        .report-action {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .auto-filled {
+            background: #f1f6fb !important;
+            color: #40566d;
+        }
+
+        .tracking {
+            margin-top: 25px;
+        }
+
+        .tracking-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .tracking-step {
+            text-align: center;
+            padding: 14px 8px;
+            border-radius: 10px;
+            background: #eef2f6;
+            color: #718096;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .tracking-step.done {
+            background: #e6f6ed;
+            color: var(--green);
+        }
+
+        .tracking-step.current {
+            background: #e5f0fb;
+            color: var(--blue);
+            box-shadow: inset 0 0 0 2px var(--blue);
+        }
+
+        .complaint-reference {
+            background: #fff7e8;
+            border: 1px solid #f1d18b;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
         /* ================= COMPLAINT ================= */
 
         .complaint-box {
@@ -1449,90 +1523,158 @@
                 <!-- COMPLAINT -->
 
                 <div id="complaints" class="hidden">
-
                     <h1 class="section-title">Customer Complaints</h1>
 
                     <p class="section-subtitle">
-                        Submit and track complaints related to weighing
-                        and measuring instruments.
+                        Report and track problems related to a verified weighing
+                        or measuring certificate.
                     </p>
 
                     <div class="card">
-
                         <h2 style="margin-bottom:20px;color:var(--navy);">
-                            Submit New Complaint
+                            📢 Report a Problem
                         </h2>
 
-                        <form id="complaintForm">
+                        <div id="complaintCertificateRef" class="complaint-reference">
+                            <b>Certificate-linked complaint</b><br>
+                            Certificate information is automatically filled from the verified certificate.
+                        </div>
 
+                        <form id="complaintForm">
                             <div class="form-grid">
 
-                                <div>
-                                    <label>Complaint Category</label>
+                                <div class="form-full">
+                                    <label>Certificate Number</label>
+                                    <input id="complaintCertificateNumber" class="auto-filled"
+                                        value="MV/LM/2026/001284" readonly>
+                                </div>
 
-                                    <select required>
-                                        <option value="">Select Category</option>
-                                        <option>Incorrect Weight</option>
-                                        <option>Unverified Instrument</option>
-                                        <option>Expired Certificate</option>
-                                        <option>Fraud / Manipulation</option>
+                                <div>
+                                    <label>Instrument Name</label>
+                                    <input id="complaintInstrument" class="auto-filled"
+                                        value="Electronic Weighing Scale" readonly>
+                                </div>
+
+                                <div>
+                                    <label>Owner / Seller Name</label>
+                                    <input id="complaintOwner" class="auto-filled"
+                                        value="XYZ Traders" readonly>
+                                </div>
+
+                                <div>
+                                    <label>Verification Date</label>
+                                    <input id="complaintVerificationDate" class="auto-filled"
+                                        value="01 Jan 2026" readonly>
+                                </div>
+
+                                <div>
+                                    <label>Expiry Date</label>
+                                    <input id="complaintExpiryDate" class="auto-filled"
+                                        value="31 Dec 2026" readonly>
+                                </div>
+
+                                <div>
+                                    <label>Problem Type</label>
+                                    <select id="problemType" required>
+                                        <option value="">Select Problem Type</option>
+                                        <option>Wrong weight/measurement</option>
+                                        <option>Instrument damaged</option>
+                                        <option>Certificate appears incorrect</option>
+                                        <option>Certificate expired</option>
                                         <option>Other</option>
                                     </select>
                                 </div>
 
-                                <div>
-                                    <label>Instrument / Shop Name</label>
-
-                                    <input required placeholder="Enter name">
-                                </div>
-
                                 <div class="form-full">
-
-                                    <label>Complaint Details</label>
-
-                                    <textarea required placeholder="Describe your complaint"></textarea>
-
+                                    <label>Description</label>
+                                    <textarea id="problemDescription" required
+                                        placeholder="Describe the problem clearly"></textarea>
                                 </div>
 
+                                <div>
+                                    <label>Upload Photo / Video</label>
+                                    <input id="evidenceFile" type="file" accept="image/*,video/*">
+                                </div>
+
+                                <div>
+                                    <label>Location</label>
+                                    <input id="complaintLocation" required
+                                        placeholder="Shop / market / premises location">
+                                </div>
+
+                                <div>
+                                    <label>Mobile Number</label>
+                                    <input id="complaintMobile" type="tel"
+                                        placeholder="Optional / OTP verified">
+                                </div>
+
+                                <div>
+                                    <label>Email</label>
+                                    <input id="complaintEmail" type="email"
+                                        placeholder="Optional">
+                                </div>
                             </div>
 
-                            <button class="btn btn-red" type="submit">
-                                SUBMIT COMPLAINT
-                            </button>
-
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-light"
+                                    onclick="customerSection('customerHome')">
+                                    CANCEL
+                                </button>
+                                <button class="btn btn-red" type="submit">
+                                    SUBMIT REPORT
+                                </button>
+                            </div>
                         </form>
 
                         <div id="complaintSuccess" class="success-box">
-                            ✓ Complaint submitted successfully!<br>
+                            ✓ Report Submitted Successfully!<br>
                             Complaint ID:
-                            <b>CMP-2026-0043</b>
+                            <b>INV-2026-00125</b>
+                        </div>
+                    </div>
+
+                    <div class="card tracking">
+                        <h2 style="color:var(--navy);margin-bottom:8px;">
+                            Track Complaint
+                        </h2>
+
+                        <p style="color:var(--muted);">
+                            Track the complaint through the complete process.
+                        </p>
+
+                        <div class="form-grid" style="margin-top:15px;">
+                            <div>
+                                <label>Complaint ID</label>
+                                <input id="trackComplaintId"
+                                    placeholder="e.g. INV-2026-00125">
+                            </div>
+
+                            <div style="display:flex;align-items:end;">
+                                <button class="btn btn-blue full" type="button"
+                                    onclick="trackComplaint()">
+                                    TRACK STATUS
+                                </button>
+                            </div>
                         </div>
 
+                        <div id="trackingResult" class="hidden"></div>
                     </div>
 
                     <br>
 
                     <div class="complaint-box">
-
                         <div class="complaint-header">
-                            <b>CMP-2026-0042</b>
-                            <span class="badge badge-orange">
-                                UNDER INVESTIGATION
-                            </span>
+                            <b>INV-2026-00124</b>
+                            <span class="badge badge-orange">INVESTIGATION</span>
                         </div>
-
                         <p>
-                            Complaint regarding incorrect weight measurement
-                            at a retail shop.
+                            Complaint regarding incorrect weight measurement at a retail shop.
                         </p>
-
-                        <small>
-                            Submitted: 02 Sep 2026
-                        </small>
-
+                        <small>Submitted: 02 Sep 2026</small>
                     </div>
-
                 </div>
+
+
 
 
                 <!-- PROFILE -->
@@ -1987,7 +2129,12 @@
 
                     <label>Certificate Number</label>
 
-                    <input id="certificateNumber" placeholder="e.g. MV/LM/2026/001284">
+                    <input id="certificateNumber" placeholder="e.g. MV/LM/2026/001284" value="MV/LM/2026/001284">
+
+                    <p style="font-size:13px;color:var(--muted);margin:0 0 15px;">
+                        📷 In the final system, scanning the QR printed on the certificate
+                        will open this verification page automatically.
+                    </p>
 
                     <button class="btn btn-blue full" onclick="verifyCertificate()">
                         VERIFY CERTIFICATE
@@ -2306,19 +2453,26 @@
         document.getElementById("complaintForm").addEventListener(
             "submit",
             function (event) {
-
                 event.preventDefault();
 
-                document.getElementById(
-                    "complaintSuccess"
-                ).style.display = "block";
+                const problemType = document.getElementById("problemType").value;
+                const description = document.getElementById("problemDescription").value.trim();
+                const location = document.getElementById("complaintLocation").value.trim();
 
-                this.reset();
+                if (!problemType || !description || !location) {
+                    showToast("Please complete Problem Type, Description and Location.");
+                    return;
+                }
 
-                showToast(
-                    "Complaint submitted successfully!"
-                );
+                document.getElementById("complaintSuccess").style.display = "block";
+                document.getElementById("trackComplaintId").value = "INV-2026-00125";
 
+                showToast("Report submitted successfully!");
+
+                document.getElementById("complaintSuccess").scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
             });
 
 
@@ -2326,112 +2480,139 @@
            CERTIFICATE VERIFICATION
         ========================================================= */
 
+        const demoCertificate = {
+            certificateNo: "MV/LM/2026/001284",
+            instrument: "Electronic Weighing Scale",
+            owner: "XYZ Traders",
+            manufacturer: "ABC Instruments",
+            model: "ES-500",
+            serial: "EWS-2026-1092",
+            capacity: "30 kg",
+            verificationDate: "01 Jan 2026",
+            expiryDate: "31 Dec 2026",
+            status: "VALID"
+        };
+
         function verifyCertificate() {
-
-            const number =
-                document.getElementById(
-                    "certificateNumber"
-                ).value.trim();
-
-            const result =
-                document.getElementById(
-                    "verificationResult"
-                );
+            const number = document.getElementById("certificateNumber").value.trim();
+            const result = document.getElementById("verificationResult");
 
             if (number === "") {
-
                 result.innerHTML = `
-            <div style="
-                background:#ffe8e8;
-                color:#c62828;
-                padding:15px;
-                border-radius:10px;
-                font-weight:bold;">
-                Please enter a certificate number.
-            </div>
-        `;
-
+                    <div style="background:#ffe8e8;color:#c62828;padding:15px;border-radius:10px;font-weight:bold;">
+                        Please enter a certificate number.
+                    </div>`;
                 return;
             }
 
-
-            if (
-                number.toUpperCase()
-                === "MV/LM/2026/001284"
-            ) {
-
+            if (number.toUpperCase() === demoCertificate.certificateNo) {
                 result.innerHTML = `
+                    <div style="background:#eaf7ee;color:#176b35;padding:20px;border-radius:12px;">
+                        <h2 style="margin-bottom:8px;">✓ Certificate Verified</h2>
 
-            <div style="
-                background:#eaf7ee;
-                color:#176b35;
-                padding:20px;
-                border-radius:12px;">
+                        <p>
+                            This certificate is digitally verified in the MeasureVerify demo database.
+                        </p>
 
-                <h2 style="margin-bottom:12px;">
-                    ✓ Certificate Verified
-                </h2>
+                        <div class="certificate-detail-card">
+                            <h3 style="color:var(--navy);margin-bottom:5px;">
+                                Certificate Details
+                            </h3>
 
-                <p>
-                    <b>Certificate No:</b>
-                    MV/LM/2026/001284
-                </p>
+                            <div class="certificate-detail-grid">
+                                <div><b>Instrument Name</b><br>${demoCertificate.instrument}</div>
+                                <div><b>Certificate Number</b><br>${demoCertificate.certificateNo}</div>
+                                <div><b>Owner / Seller Name</b><br>${demoCertificate.owner}</div>
+                                <div><b>Manufacturer</b><br>${demoCertificate.manufacturer}</div>
+                                <div><b>Model</b><br>${demoCertificate.model}</div>
+                                <div><b>Serial Number</b><br>${demoCertificate.serial}</div>
+                                <div><b>Capacity</b><br>${demoCertificate.capacity}</div>
+                                <div><b>Verification Date</b><br>${demoCertificate.verificationDate}</div>
+                                <div><b>Expiry Date</b><br>${demoCertificate.expiryDate}</div>
+                                <div>
+                                    <b>Status</b><br>
+                                    <span class="badge badge-green">${demoCertificate.status}</span>
+                                </div>
+                            </div>
 
-                <p>
-                    <b>Instrument:</b>
-                    Electronic Weighing Scale
-                </p>
+                            <div class="report-action">
+                                <p style="margin-bottom:10px;">
+                                    If something is wrong with the instrument, measurement,
+                                    or certificate, report the issue directly against this certificate.
+                                </p>
 
-                <p>
-                    <b>Manufacturer:</b>
-                    ABC Instruments
-                </p>
-
-                <p>
-                    <b>Capacity:</b>
-                    30 kg
-                </p>
-
-                <p>
-                    <b>Valid Until:</b>
-                    31 December 2026
-                </p>
-
-                <p style="margin-top:12px;">
-                    <b>Status:</b>
-                    VALID
-                </p>
-
-            </div>
-        `;
-
-            }
-
-            else {
-
+                                <button class="btn btn-red" onclick="openCertificateComplaint()">
+                                    🚩 REPORT A PROBLEM
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            } else {
                 result.innerHTML = `
-
-            <div style="
-                background:#fff4df;
-                color:#9a5b00;
-                padding:18px;
-                border-radius:12px;">
-
-                ⚠ Certificate not found in the demo
-                verification database.
-
-                <br><br>
-
-                Try:
-
-                <b>MV/LM/2026/001284</b>
-
-            </div>
-
-        `;
-
+                    <div style="background:#fff4df;color:#9a5b00;padding:18px;border-radius:12px;">
+                        ⚠ Certificate not found in the demo verification database.
+                        <br><br>
+                        Try: <b>MV/LM/2026/001284</b>
+                    </div>`;
             }
+        }
 
+        function openCertificateComplaint() {
+            showPage("customer");
+            customerSection("complaints");
+
+            document.getElementById("complaintCertificateNumber").value = demoCertificate.certificateNo;
+            document.getElementById("complaintInstrument").value = demoCertificate.instrument;
+            document.getElementById("complaintOwner").value = demoCertificate.owner;
+            document.getElementById("complaintVerificationDate").value = demoCertificate.verificationDate;
+            document.getElementById("complaintExpiryDate").value = demoCertificate.expiryDate;
+
+            document.getElementById("complaintCertificateRef").innerHTML = `
+                <b>Certificate linked automatically</b><br>
+                ${demoCertificate.certificateNo} • ${demoCertificate.instrument} •
+                Owner: ${demoCertificate.owner}
+            `;
+
+            showToast("Certificate information auto-filled in the report form.");
+        }
+
+        function trackComplaint() {
+            const id = document.getElementById("trackComplaintId").value.trim().toUpperCase();
+            const result = document.getElementById("trackingResult");
+
+            if (id === "INV-2026-00125") {
+                result.classList.remove("hidden");
+                result.innerHTML = `
+                    <div class="complaint-reference">
+                        <b>Complaint ID: ${id}</b><br>
+                        Certificate: ${demoCertificate.certificateNo}
+                    </div>
+
+                    <div class="tracking-steps">
+                        <div class="tracking-step done">✓<br>Submitted</div>
+                        <div class="tracking-step done">✓<br>Officer Assigned</div>
+                        <div class="tracking-step current">●<br>Investigation</div>
+                        <div class="tracking-step">4<br>Re-verification</div>
+                        <div class="tracking-step">5<br>Resolved</div>
+                    </div>
+
+                    <p style="margin-top:18px;color:var(--blue);font-weight:bold;">
+                        Current Status: Investigation
+                    </p>`;
+            } else if (id === "") {
+                result.classList.remove("hidden");
+                result.innerHTML = `
+                    <div style="background:#ffe8e8;color:#c62828;padding:14px;border-radius:10px;">
+                        Please enter a Complaint ID.
+                    </div>`;
+            } else {
+                result.classList.remove("hidden");
+                result.innerHTML = `
+                    <div style="background:#fff4df;color:#9a5b00;padding:14px;border-radius:10px;">
+                        Complaint ID not found in the demo tracker.
+                        <br><br>Try <b>INV-2026-00125</b>.
+                    </div>`;
+            }
         }
 
 
